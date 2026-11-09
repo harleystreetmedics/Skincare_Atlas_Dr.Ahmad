@@ -1,4 +1,4 @@
-# Dr. Ahmed Atlas
+# Dr. Ahmad Atlas
 
 Nine photographic sheets in three chapters, three worksheets, an offline HTML reading edition and a 15-page PDF. No checkout, account or backend.
 

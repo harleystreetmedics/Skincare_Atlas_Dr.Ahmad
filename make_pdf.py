@@ -7,12 +7,12 @@ from reportlab.lib.styles import ParagraphStyle
 
 ROOT=os.path.dirname(__file__)
 D=json.load(open(os.path.join(ROOT,'atlas-content.json'),encoding='utf-8'))
-OUT=os.path.join(ROOT,'dist','assets','dr-ahmed-atlas.pdf')
+OUT=os.path.join(ROOT,'dist','assets','dr-ahmad-atlas.pdf')
 W,H=A4
-wine=HexColor('#712638'); cream=HexColor('#faf7f1'); ink=HexColor('#302c28'); muted=HexColor('#6d6860'); line=HexColor('#dfd8cc'); sage=HexColor('#dbe4d4')
+wine=HexColor('#80631c'); cream=HexColor('#f8f6ef'); ink=HexColor('#302c28'); muted=HexColor('#6d6860'); line=HexColor('#dfd8cc'); sage=HexColor('#ede4c9')
 c=canvas.Canvas(OUT,pagesize=A4)
-c.setTitle('Dr. Ahmed Atlas')
-c.setAuthor('Dr. Ahmed Atlas')
+c.setTitle('Dr. Ahmad Atlas')
+c.setAuthor('Dr. Ahmad Atlas')
 BODY=ParagraphStyle('body',fontName='Helvetica',fontSize=9.1,leading=13.3,textColor=ink)
 SMALL=ParagraphStyle('small',fontName='Helvetica',fontSize=7.2,leading=10.2,textColor=muted)
 def clean(t):
@@ -21,12 +21,12 @@ def para(t,x,y,width,style=BODY):
  p=Paragraph(html.escape(clean(t)),style); _,height=p.wrap(width,1000); p.drawOn(c,x,y-height); return y-height
 def text(t,x,y,size=10,font='Helvetica',color=ink):
  c.setFillColor(color);c.setFont(font,size);c.drawString(x,y,clean(t))
-def footer(page,label='DR. AHMED ATLAS / 9 NOVEMBER 2026'):
+def footer(page,label='DR. AHMAD ATLAS / 9 NOVEMBER 2026'):
  c.setStrokeColor(line);c.line(40,42,W-40,42)
  text(label,40,28,6.5,color=muted);c.setFillColor(wine);c.setFont('Helvetica',7);c.drawRightString(W-40,28,str(page))
 def new_page(title,chapter,page):
  c.setFillColor(cream);c.rect(0,0,W,H,fill=1,stroke=0)
- text('DR. AHMED ATLAS',40,H-39,8,'Helvetica-Bold',wine)
+ text('DR. AHMAD ATLAS',40,H-39,8,'Helvetica-Bold',wine)
  c.setFont('Helvetica',7);c.drawRightString(W-40,H-39,chapter.upper())
  c.setStrokeColor(wine);c.line(40,H-50,W-40,H-50)
  text(title,40,H-93,31,'Times-Roman',wine)
@@ -72,9 +72,9 @@ def diagram(cat,x,y,w=220,h=140):
  c.setFont('Helvetica',6.5);c.setFillColor(muted);c.drawCentredString(140,12,label);c.restoreState()
 
 # Cover
-c.setFillColor(wine);c.rect(0,0,W,H,fill=1,stroke=0)
+c.setFillColor(HexColor('#090909'));c.rect(0,0,W,H,fill=1,stroke=0)
 c.setStrokeColor(HexColor('#bca06c'));c.rect(25,25,W-50,H-50,fill=0,stroke=1);c.rect(32,32,W-64,H-64,fill=0,stroke=1)
-c.setFillColor(HexColor('#e4d2b1'));c.setFont('Times-Roman',24);c.drawCentredString(W/2,650,'DR. AHMED')
+c.drawImage(os.path.join(ROOT,'dist','assets','hsa-logo.png'),W/2-42,676,84,84,mask='auto');c.setFillColor(HexColor('#d5af48'));c.setFont('Times-Roman',24);c.drawCentredString(W/2,650,'DR. AHMAD')
 c.setFont('Times-Bold',92);c.drawCentredString(W/2,552,'ATLAS')
 c.setFont('Times-Italic',29);c.drawCentredString(W/2,490,'A clearer picture.')
 c.setFont('Helvetica',10);c.drawCentredString(W/2,438,'FACIAL SKINCARE')
@@ -133,7 +133,7 @@ for i,b in enumerate(D['bonuses']):
  c.showPage()
 new_page('About this edition','Sources and edition notes',15)
 c.drawImage(os.path.join(ROOT,'dist','assets','photos','director.jpg'),42,H-219,84,102,preserveAspectRatio=True,anchor='c')
-text('Dr. Ahmed',145,H-145,18,'Times-Roman',wine)
+text('Dr. Ahmad',145,H-145,18,'Times-Roman',wine)
 
 notes=[
  ('About the Atlas','Nine facial skincare topics, arranged in three chapters. Each sheet includes a photograph, six short sections and links for further reading.'),
