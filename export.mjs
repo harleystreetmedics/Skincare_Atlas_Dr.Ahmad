@@ -1,0 +1,10 @@
+import fs from 'node:fs';
+import vm from 'node:vm';
+const sandbox={document:{querySelector:()=>({})},localStorage:{getItem:()=>null},setTimeout,clearTimeout};
+vm.createContext(sandbox);
+vm.runInContext(fs.readFileSync('dist/data.js','utf8')+'\n'+fs.readFileSync('dist/app.js','utf8').split("$('#categories').innerHTML")[0],sandbox);
+const dataset=vm.runInContext('JSON.stringify({guides:GUIDES,categories:CATEGORIES,sources:SOURCES,headings:HEADINGS,bonuses:BONUSES})',sandbox);
+fs.writeFileSync('atlas-content.json',dataset);
+const html=vm.runInContext(`offlineDoc('Dr. Ahmed Atlas','<nav aria-label="Reference index"><h2>Reference index</h2>'+GUIDES.map(g=>'<a href="#sheet-'+g.id+'">'+num(g.id)+' '+esc(g.title)+'</a>').join('')+'</nav>'+GUIDES.map(g=>'<div id="sheet-'+g.id+'">'+sheetMarkup(g).replace('id="reader-title"','id="title-'+g.id+'"')+'</div>').join('')+BONUSES.map((b,i)=>bonusMarkup(b,i).replace('id="reader-title"','id="bonus-title-'+i+'"')).join(''),true)`,sandbox);
+fs.writeFileSync('dist/assets/dr-ahmed-atlas.html',html.replace('<nav aria-label=', '<aside style="max-width:800px;margin:auto;padding:24px;background:white"><img style="width:120px;vertical-align:middle;margin-right:18px" src="data:image/jpeg;base64,'+fs.readFileSync('dist/assets/photos/director.jpg').toString('base64')+'" alt="Dr. Ahmed"><strong>Dr. Ahmed</strong></aside><nav aria-label=').replace(/assets\/photos\/((?:companion-)?\d+\.jpg)/g,(_,file)=>'data:image/jpeg;base64,'+fs.readFileSync('dist/assets/photos/'+file).toString('base64')));
+console.log(JSON.stringify({sheets:JSON.parse(dataset).guides.length,htmlBytes:Buffer.byteLength(html)}));
